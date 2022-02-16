@@ -1,9 +1,13 @@
 import React from "react";
 import { ImageBackground, StyleSheet, Text, View } from "react-native";
 import AuthForm from "./src/Components/Forms/AuthForm";
+import * as Font from 'expo-font';
+import {AppLoading} from "expo"
 
-// const image = { uri: "https://reactjs.org/logo-og.png" };
 const image = require("./assets/images/background.jpeg");
+const loadApplication = async () =>{
+  await Font.loadAsync({"Roboto-reg" : require('./assets/fonts/Roboto-Regular.ttf')})
+}
 
 const App = () => (
   <View style={styles.container}>
