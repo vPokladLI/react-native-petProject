@@ -1,49 +1,81 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Text,
   StyleSheet,
   TextInput,
   View,
   TouchableOpacity,
+  Keyboard,
+  Platform,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback
 } from "react-native";
 
-const AuthForm = () => {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState(0);
-  return (
-    <View style={styles.form}>
-      <View style={styles.formField}>
-        <Text style={styles.inputTitle}>INPUT YOUR EMAIL</Text>
-        <TextInput
-          style={styles.input}
-          value={email}
-          onChangeText={setEmail}
-          placeholder="name@example.com"
-          keyboardType="email-address"
-        />
-      </View>
-      <View style={styles.formField}>
-        <Text style={{ ...styles.inputTitle, marginTop: 10 }}>
-          INPUT YOUR PASSWORD
-        </Text>
-        <TextInput
-          style={styles.input}
-          value={password}
-          onChangeText={setPassword}
-          placeholder="password"
-          secureTextEntry={true}
-        />
-      </View>
+const initialCredentials = {email: "", password: ""}
 
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonTitle}>LOGIN</Text>
-      </TouchableOpacity>
-    </View>
+const AuthForm = () => {
+
+
+  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+  const [credentials, setCredentials] = useState(initialCredentials);
+  const keyboardHide =() =>{
+    setIsShowKeyboard(false);
+    Keyboard.dismiss()
+    console.log(credentials)
+    setCredentials(initialCredentials)
+  }
+  return (
+    <TouchableWithoutFeedback onPress={keyboardHide}>
+   <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : null}
+   >
+
+      <View style={{ ...styles.form, marginBottom: isShowKeyboard ? 30 : 150 }}>
+        <View style={styles.formField}>
+          <Text style={styles.inputTitle}>INPUT YOUR EMAIL</Text>
+          <TextInput
+            style={styles.input}
+            value={credentials.email}
+            onChangeText={(value)=>setCredentials((prev)=>({...prev, email: value}))}
+            onFocus={() => {
+              setIsShowKeyboard(true);
+            }}
+            placeholder="name@example.com"
+            keyboardType="email-address"
+          />
+        </View>
+        <View style={styles.formField}>
+          <Text style={{ ...styles.inputTitle, marginTop: 10 }}>
+            INPUT YOUR PASSWORD
+          </Text>
+          <TextInput
+            style={styles.input}
+            value ={credentials.password}
+            onChangeText={(value)=>{setCredentials((prev)=>({...prev, password: value}))}}
+            onFocus={() => {
+              setIsShowKeyboard(true);
+            }}
+            placeholder="password"
+            secureTextEntry={true}
+          />
+        </View>
+
+        <TouchableOpacity
+          style={styles.button}
+          onPress={keyboardHide}
+        >
+          <Text style={styles.buttonTitle}>LOGIN</Text>
+        </TouchableOpacity>
+      </View>
+   </KeyboardAvoidingView>
+   </TouchableWithoutFeedback>
+    
   );
 };
 
 const styles = StyleSheet.create({
-  form: { marginHorizontal: 10 },
+  form: {
+    marginHorizontal: 10,
+  },
   formField: {},
   inputTitle: {},
   input: {

@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  ImageBackground,
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-} from "react-native";
+import { ImageBackground, StyleSheet, Text, View } from "react-native";
 import AuthForm from "./src/Components/Forms/AuthForm";
 
 // const image = { uri: "https://reactjs.org/logo-og.png" };
@@ -14,10 +8,8 @@ const image = require("./assets/images/background.jpeg");
 const App = () => (
   <View style={styles.container}>
     <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-      <SafeAreaView>
-        <Text style={styles.text}>Test app#333</Text>
-        <AuthForm />
-      </SafeAreaView>
+      <Text style={styles.text}>Hello!</Text>
+      <AuthForm style={styles.authForm} />
     </ImageBackground>
   </View>
 );
@@ -28,7 +20,7 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-end",
   },
   text: {
     color: "white",
@@ -37,11 +29,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     backgroundColor: "#000000c0",
-  },
-  input: {
-    // width: 150,
-    borderWidth: 1,
-    borderColor: "#ffffff",
+    marginBottom: 30
   },
 });
 
