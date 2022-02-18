@@ -14,8 +14,9 @@ import {
 } from "react-native";
 
 const initialCredentials = { email: "", password: "", login: "" };
+const image = require("../../../assets/images/background.jpg");
 
-export default function RegistrationScreen() {
+export default function RegistrationScreen({ navigation }) {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [credentials, setCredentials] = useState(initialCredentials);
   const [width, setWidth] = useState(Dimensions.get("window").width);
@@ -95,12 +96,12 @@ export default function RegistrationScreen() {
           <View style={styles.avatar}>
             <TouchableOpacity style={styles.addAvatar}>
               <Image
-                source={require("../../assets/images/Union.svg")}
+                source={require("../../../assets/images/Union.svg")}
                 style={styles.addAvatarImage}
               />
             </TouchableOpacity>
           </View>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
             <Text style={styles.alterBtn}>Уже есть аккаунт? Войти</Text>
           </TouchableOpacity>
         </View>

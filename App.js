@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { ImageBackground, StyleSheet, Text, View } from "react-native";
+
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import * as Font from "expo-font";
 import AppLoading from "expo-app-loading";
 
-import RegistrationScreen from "./src/Screens/RegistrationScreen";
-import LoginScreen from "./src/Screens/LoginScreen";
-const image = require("./assets/images/background.jpg");
+import RegistrationScreen from "./src/Screens/auth/RegistrationScreen";
+import LoginScreen from "./src/Screens/auth/LoginScreen";
 
 const loadApplication = async () => {
   await Font.loadAsync({
@@ -19,6 +20,7 @@ const loadApplication = async () => {
   });
 };
 
+const MainStack = createStackNavigator();
 const App = () => {
   const [isReady, setIsReady] = useState(false);
 
@@ -35,33 +37,13 @@ const App = () => {
   }
 
   return (
-    <View style={styles.container}>
-      <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-        {/* <RegistrationScreen /> */}
-        <LoginScreen />
-      </ImageBackground>
-    </View>
+    <NavigationContainer>
+      <MainStack.Navigator initialRouteName="Login">
+        <MainStack.Screen name="Registration" component={RegistrationScreen} />
+        <MainStack.Screen name="Login" component={LoginScreen} />
+      </MainStack.Navigator>
+    </NavigationContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  image: {
-    flex: 1,
-    justifyContent: "flex-end",
-  },
-  text: {
-    color: "white",
-    fontSize: 42,
-    lineHeight: 84,
-    fontWeight: "bold",
-    textAlign: "center",
-    backgroundColor: "#000000c0",
-    marginBottom: 30,
-    fontFamily: "Roboto-Regular",
-  },
-});
 
 export default App;
