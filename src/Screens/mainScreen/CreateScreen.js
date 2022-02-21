@@ -1,11 +1,17 @@
 // rnfs
-import { StyleSheet, Text, View, SafeAreaView } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
+import { Camera } from "expo-camera";
+import { Touchable } from "react-native-web";
 
 export default function CreateScreen() {
   return (
     <View style={styles.container}>
-      <Text>CreateScreen</Text>
+      <Camera style={styles.camera}>
+        <TouchableOpacity>
+          <Text style={{ color: "#FFFFFF" }}>SNAP</Text>
+        </TouchableOpacity>
+      </Camera>
     </View>
   );
 }
@@ -13,7 +19,9 @@ export default function CreateScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+  },
+  camera: {
+    marginTop: 110,
+    height: 300,
   },
 });
