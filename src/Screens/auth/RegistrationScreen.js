@@ -11,13 +11,14 @@ import {
   TouchableWithoutFeedback,
   Dimensions,
   Image,
+  ImageBackground,
 } from "react-native";
-
-const initialCredentials = { email: "", password: "", login: "" };
 const image = require("../../../assets/images/background.jpg");
+const initialCredentials = { email: "", password: "", login: "" };
 
-export default function RegistrationScreen({ navigation }) {
+export default function LoginScreen({ navigation }) {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+  const [isShowPass, setIsShowPass] = useState(true);
   const [credentials, setCredentials] = useState(initialCredentials);
   const [width, setWidth] = useState(Dimensions.get("window").width);
 
@@ -36,81 +37,107 @@ export default function RegistrationScreen({ navigation }) {
     console.log(credentials);
     setCredentials(initialCredentials);
   };
+
+  const toggleShowPass = () => {
+    setIsShowPass((prev) => !prev);
+  };
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : null}>
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View style={styles.form}>
-          <Text style={styles.formTitle}>Регистрация</Text>
-          <View
-            style={{
-              ...styles.inputs,
-              width: width - 40,
-            }}
-          >
-            <View style={styles.formField}>
-              <TextInput
-                style={styles.input}
-                value={credentials.login}
-                onChangeText={(value) =>
-                  setCredentials((prev) => ({ ...prev, email: value }))
-                }
-                onFocus={() => {
-                  setIsShowKeyboard(true);
-                }}
-                placeholder="Логин"
-              />
+    <ImageBackground
+      source={image}
+      resizeMode="cover"
+      style={styles.backgroundImage}
+    >
+      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : null}>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <View style={styles.form}>
+            <Text style={styles.formTitle}>Регистрация</Text>
+            <View
+              style={{
+                ...styles.inputs,
+                width: width - 40,
+              }}
+            >
+              <View style={styles.formField}>
+                <TextInput
+                  style={styles.input}
+                  value={credentials.login}
+                  onChangeText={(value) =>
+                    setCredentials((prev) => ({ ...prev, login: value }))
+                  }
+                  onFocus={() => {
+                    setIsShowKeyboard(true);
+                  }}
+                  placeholder="Логин"
+                />
+              </View>
+              <View style={styles.formField}>
+                <TextInput
+                  style={styles.input}
+                  value={credentials.email}
+                  onChangeText={(value) =>
+                    setCredentials((prev) => ({ ...prev, email: value }))
+                  }
+                  onFocus={() => {
+                    setIsShowKeyboard(true);
+                  }}
+                  placeholder="Адрес электронной почты"
+                  keyboardType="email-address"
+                />
+              </View>
+              <View style={styles.formField}>
+                <TextInput
+                  style={styles.input}
+                  value={credentials.password}
+                  onChangeText={(value) => {
+                    setCredentials((prev) => ({ ...prev, password: value }));
+                  }}
+                  onFocus={() => {
+                    setIsShowKeyboard(true);
+                  }}
+                  placeholder="Пароль"
+                  secureTextEntry={isShowPass}
+                />
+                <TouchableOpacity
+                  onPress={toggleShowPass}
+                  style={styles.hidePass}
+                >
+                  <Text style={styles.hidePassText}>
+                    {isShowPass ? "Показать" : "Скрыть"}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+
+              <TouchableOpacity style={styles.button} onPress={keyboardHide}>
+                <Text style={styles.buttonTitle}>Зарегестрироваться</Text>
+              </TouchableOpacity>
             </View>
-            <View style={styles.formField}>
-              <TextInput
-                style={styles.input}
-                value={credentials.email}
-                onChangeText={(value) =>
-                  setCredentials((prev) => ({ ...prev, login: value }))
-                }
-                onFocus={() => {
-                  setIsShowKeyboard(true);
-                }}
-                placeholder="Адрес электронной почты"
-                keyboardType="email-address"
-              />
-            </View>
-            <View style={styles.formField}>
-              <TextInput
-                style={styles.input}
-                value={credentials.password}
-                onChangeText={(value) => {
-                  setCredentials((prev) => ({ ...prev, password: value }));
-                }}
-                onFocus={() => {
-                  setIsShowKeyboard(true);
-                }}
-                placeholder="Пароль"
-                secureTextEntry={true}
-              />
+            <View style={styles.avatar}>
+              <TouchableOpacity style={styles.addAvatar}>
+                <Image
+                  source={require("../../../assets/images/Union.svg")}
+                  style={styles.addAvatarImage}
+                />
+              </TouchableOpacity>
             </View>
 
-            <TouchableOpacity style={styles.button} onPress={keyboardHide}>
-              <Text style={styles.buttonTitle}>Зарегистрироваться</Text>
-            </TouchableOpacity>
+            <Text
+              onPress={() => navigation.navigate("Login")}
+              style={styles.alterBtn}
+            >
+              Уже есть аккаунт? Войти.
+            </Text>
           </View>
-          <View style={styles.avatar}>
-            <TouchableOpacity style={styles.addAvatar}>
-              <Image
-                source={require("../../../assets/images/Union.svg")}
-                style={styles.addAvatarImage}
-              />
-            </TouchableOpacity>
-          </View>
-          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-            <Text style={styles.alterBtn}>Уже есть аккаунт? Войти</Text>
-          </TouchableOpacity>
-        </View>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    justifyContent: "flex-end",
+  },
   form: {
     position: "relative",
     fontFamily: "Roboto-Regular",
@@ -120,6 +147,7 @@ const styles = StyleSheet.create({
     height: 549,
     backgroundColor: "#FFFFFF",
   },
+
   avatar: {
     position: "absolute",
     top: -60,
@@ -158,7 +186,23 @@ const styles = StyleSheet.create({
     marginLeft: "auto",
     marginRight: "auto",
   },
-  formField: { fontFamily: "Roboto-Regular" },
+  formField: {
+    fontFamily: "Roboto-Regular",
+    position: "relative",
+  },
+  hidePass: {
+    position: "absolute",
+    zIndex: 2,
+    top: 15,
+    right: 16,
+  },
+  hidePassText: {
+    fontSize: 16,
+    color: "#1B4371",
+    fontWeight: "400",
+    textAlign: "right",
+  },
+
   inputTitle: { fontFamily: "Roboto-Regular" },
   input: {
     backgroundColor: "#F6F6F6",
@@ -183,6 +227,7 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
   },
   alterBtn: {
+    paddingVertical: 10,
     fontSize: 16,
     textAlign: "center",
     color: "#BDBDBD",

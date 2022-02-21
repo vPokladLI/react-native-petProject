@@ -106,13 +106,13 @@ export default function LoginScreen({ navigation }) {
                 />
               </TouchableOpacity>
             </View>
-            <TouchableOpacity
+
+            <Text
               onPress={() => navigation.navigate("Registration")}
+              style={styles.alterBtn}
             >
-              <Text style={styles.alterBtn}>
-                Нет аккаунта? Зарегистрироваться.
-              </Text>
-            </TouchableOpacity>
+              Нет аккаунта? Зарегистрироваться.
+            </Text>
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
@@ -214,6 +214,7 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
   },
   alterBtn: {
+    paddingVertical: 10,
     fontSize: 16,
     textAlign: "center",
     color: "#BDBDBD",
