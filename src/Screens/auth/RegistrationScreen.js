@@ -13,6 +13,7 @@ import {
   Image,
   ImageBackground,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 const image = require("../../../assets/images/background.jpg");
 const initialCredentials = { email: "", password: "", login: "" };
 
@@ -113,10 +114,7 @@ export default function LoginScreen({ navigation }) {
             </View>
             <View style={styles.avatar}>
               <TouchableOpacity style={styles.addAvatar}>
-                <Image
-                  source={require("../../../assets/images/Union.svg")}
-                  style={styles.addAvatarImage}
-                />
+                <Ionicons name="add-circle-outline" size={31} color="#FF6C00" />
               </TouchableOpacity>
             </View>
 
@@ -160,21 +158,16 @@ const styles = StyleSheet.create({
   },
   addAvatar: {
     position: "absolute",
-    right: -13,
-    bottom: 14,
+    right: -15,
+    bottom: 15,
     justifyContent: "center",
     alignItems: "center",
-    width: 26,
-    height: 26,
+    width: 30,
+    height: 30,
     backgroundColor: "#FFFFFF",
-    borderRadius: 25,
-    borderColor: "#FF6C00",
-    borderWidth: 1,
+    borderRadius: 15,
   },
-  addAvatarImage: {
-    width: 13,
-    height: 13,
-  },
+
   formTitle: {
     color: "#212121",
     fontWeight: "500",
