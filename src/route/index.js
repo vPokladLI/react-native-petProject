@@ -54,6 +54,7 @@ export default function useRoute(isAuth) {
             </View>
           ),
           headerShown: false,
+          unmountOnBlur: true,
         }}
       />
       <MainTab.Screen
