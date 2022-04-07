@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   TouchableHighlight,
+  ActivityIndicator,
 } from "react-native";
 import * as Location from "expo-location";
 import { AntDesign, FontAwesome5 } from "@expo/vector-icons";
@@ -65,6 +66,7 @@ export default function CreateScreen({ navigation }) {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Создать публикацию</Text>
       </View>
+      <View style={styles.cameraView}>
       <Camera style={styles.camera} type={type} ref={setCamera}>
         <TouchableHighlight
           style={styles.cameraButton}
@@ -82,7 +84,7 @@ export default function CreateScreen({ navigation }) {
           {!isLoading ? (
             <AntDesign name="camera" size={24} color="white" />
           ) : (
-            <FontAwesome5 name="spinner" size={24} color="white" />
+            <ActivityIndicator size="large" color="#FFFFFF"/>
           )}
         </TouchableHighlight>
       </Camera>
@@ -92,7 +94,13 @@ export default function CreateScreen({ navigation }) {
           <Image style={styles.photo} source={{ uri: photo }} />
         </View>
       )}
+      </View>
+
+
       <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button} onPress={sendPhoto}>
+          <Text style={styles.buttonText}>Опубликовать</Text>
+        </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
@@ -102,9 +110,6 @@ export default function CreateScreen({ navigation }) {
           <Text style={styles.buttonText}>Reset</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button} onPress={sendPhoto}>
-          <Text style={styles.buttonText}>SEND</Text>
-        </TouchableOpacity>
       </View>
     </View>
   );
@@ -128,14 +133,20 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     color: "#212121",
   },
+  cameraView:{
+    backgroundColor: "yellow",
+    height:"45%",
+    position: "relative",
+    marginBottom: 30,
+  },
   camera: {
-    height: "50%",
+    height: "100%",
     marginHorizontal: 16,
     borderRadius: 8,
     borderEndWidth: 1,
     borderColor: "#E8E8E8",
     justifyContent: "center",
-    marginBottom: 30,
+    
     alignItems: "center",
   },
   cameraButton: {
@@ -147,29 +158,33 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   button: {
-    height: 70,
-    width: 70,
-    borderWidth: 2,
-    borderColor: "red",
+    height: 51,
+    width: 343,
+    
+    backgroundColor: "#FF6C00",
 
-    borderRadius: 35,
+    borderRadius: 100,
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 50,
+    
   },
   buttonText: {
-    color: "#000000",
+    color: "#ffffff",
     textAlign: "center",
+    fontSize: 16,
   },
   photo: {
     position: "absolute",
-    marginHorizontal: 16,
-    width: 300,
+    top: 30,    
+    zIndex:2,
+    width: 400,
     height: 300,
   },
   buttonContainer: {
-    flexDirection: "row",
-
-    justifyContent: "space-around",
+    height: "100%",
+    flexDirection: "column",
+    alignItems: "center",
+backgroundColor: "green",
+    justifyContent: "space-between",
   },
 });
