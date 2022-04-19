@@ -74,7 +74,7 @@ export default function useRoute(isAuth) {
 const styles = StyleSheet.create({
   iconCreate: {
     width: 70,
-    height: 40,
+    // height: 40,
     backgroundColor: "#FF6C00",
     borderRadius: 20,
     flex: 1,
@@ -82,3 +82,4 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+ 

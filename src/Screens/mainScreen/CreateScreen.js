@@ -66,36 +66,44 @@ export default function CreateScreen({ navigation }) {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Создать публикацию</Text>
       </View>
+
       <View style={styles.cameraView}>
-      <Camera style={styles.camera} type={type} ref={setCamera}>
-        <TouchableHighlight
-          style={styles.cameraButton}
-          onPress={takePhoto}
-          activeOpacity={0.6}
-          underlayColor="#FFFFFF"
-          onLongPress={() => {
-            setType(
-              type === Camera.Constants.Type.back
-                ? Camera.Constants.Type.front
-                : Camera.Constants.Type.back
-            );
-          }}
-        >
-          {!isLoading ? (
-            <AntDesign name="camera" size={24} color="white" />
-          ) : (
-            <ActivityIndicator size="large" color="#FFFFFF"/>
-          )}
-        </TouchableHighlight>
-      </Camera>
+        <Camera style={styles.camera} type={type} ref={setCamera}>
+          <TouchableHighlight
+            style={styles.cameraButton}
+            onPress={takePhoto}
+            activeOpacity={0.6}
+            underlayColor="#FFFFFF"
+            onLongPress={() => {
+              setType(
+                type === Camera.Constants.Type.back
+                  ? Camera.Constants.Type.front
+                  : Camera.Constants.Type.back
+              );
+            }}
+          >
+            {!isLoading ? (
+              <AntDesign name="camera" size={24} color="white" />
+            ) : (
+              <ActivityIndicator size="large" color="#FFFFFF" />
+            )}
+          </TouchableHighlight>
+        </Camera>
 
-      {photo && (
         <View>
-          <Image style={styles.photo} source={{ uri: photo }} />
+          <Image
+            style={styles.photo}
+            // source={{ uri: photo }}
+          />
         </View>
-      )}
+        {/* {photo && ( */}
+        {/* <View>
+          <Image style={styles.photo} 
+          // source={{ uri: photo }} 
+          />
+        </View> */}
+        {/* )} */}
       </View>
-
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={sendPhoto}>
@@ -109,7 +117,6 @@ export default function CreateScreen({ navigation }) {
         >
           <Text style={styles.buttonText}>Reset</Text>
         </TouchableOpacity>
-
       </View>
     </View>
   );
@@ -118,7 +125,7 @@ export default function CreateScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    position: "relative",
+    backgroundColor: "blue",
   },
   header: {
     height: 88,
@@ -133,9 +140,10 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     color: "#212121",
   },
-  cameraView:{
+  cameraView: {
+    flexBasis: "40%",
     backgroundColor: "yellow",
-    height:"45%",
+
     position: "relative",
     marginBottom: 30,
   },
@@ -146,8 +154,16 @@ const styles = StyleSheet.create({
     borderEndWidth: 1,
     borderColor: "#E8E8E8",
     justifyContent: "center",
-    
     alignItems: "center",
+  },
+  photo: {
+    position: "absolute",
+
+    width: "100%",
+    height: "100%",
+
+    backgroundColor: "blue",
+    zIndex: 10,
   },
   cameraButton: {
     width: 60,
@@ -160,31 +176,24 @@ const styles = StyleSheet.create({
   button: {
     height: 51,
     width: 343,
-    
+
     backgroundColor: "#FF6C00",
 
     borderRadius: 100,
     alignItems: "center",
     justifyContent: "center",
-    
   },
   buttonText: {
     color: "#ffffff",
     textAlign: "center",
     fontSize: 16,
   },
-  photo: {
-    position: "absolute",
-    top: 30,    
-    zIndex:2,
-    width: 400,
-    height: 300,
-  },
   buttonContainer: {
-    height: "100%",
+    flexBasis: "50%",
     flexDirection: "column",
     alignItems: "center",
-backgroundColor: "green",
+    backgroundColor: "green",
     justifyContent: "space-between",
+    paddingBottom: 30,
   },
 });
