@@ -9,26 +9,20 @@ import {
   ActivityIndicator,
 } from "react-native";
 import * as Location from "expo-location";
-import { AntDesign, FontAwesome5 } from "@expo/vector-icons";
-
-import { Camera } from "expo-camera";
+import {
+  launchCameraAsync,
+  useCameraPermissions,
+  PermissionStatus,
+} from "expo-image-picker";
+import { AntDesign } from "@expo/vector-icons";
 
 export default function CreateScreen({ navigation }) {
-  const [camera, setCamera] = useState(null);
-  const [photo, setPhoto] = useState(null);
-  const [hasPermission, setHasPermission] = useState(null);
-  const [type, setType] = useState(Camera.Constants.Type.back);
-
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [photoURI, setPhotoURI] = useState(null);
 
   useEffect(() => {
-    (async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
-      setHasPermission(status === "granted");
-      console.log("camera permission", status);
-    })();
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       console.log("location permission", status);
@@ -38,27 +32,39 @@ export default function CreateScreen({ navigation }) {
       }
     })();
   }, []);
+  const [cameraPermissionInformation, requestPermition] =
+    useCameraPermissions();
 
-  if (hasPermission === null) {
-    return <View />;
-  }
-  if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
-  }
+  const verifyPermission = async () => {
+    if (cameraPermissionInformation.status === PermissionStatus.UNDETERMINED) {
+      const permissionResponse = await requestPermition();
+      return permissionResponse.granted;
+    }
 
+    if (cameraPermissionInformation.status === PermissionStatus.DENIED) {
+      Alert.alert("Требуется разрешение для использования камеры");
+      return false;
+    }
+    return true;
+  };
   const takePhoto = async () => {
-    setIsLoading(true);
-    const picture = await camera.takePictureAsync();
-    setPhoto(picture.uri);
+    const hasPermission = await verifyPermission();
+    if (!hasPermission) return;
+
+    const photo = await launchCameraAsync({
+      allowsEditing: true,
+      quality: 0.5,
+      aspect: [16, 9],
+    });
+    setPhotoURI(photo.uri);
     let location = await Location.getCurrentPositionAsync({});
     setLocation(location);
-    setIsLoading(false);
-    // console.log("photo", photo);
-    // console.log("location", location);
+    // console.log(photoURI);
   };
+
   const sendPhoto = () => {
     console.log("navigation", navigation);
-    navigation.navigate("Posts", { photo, location });
+    navigation.navigate("Posts", { photoURI, location });
   };
 
   return (
@@ -67,42 +73,21 @@ export default function CreateScreen({ navigation }) {
         <Text style={styles.headerTitle}>Создать публикацию</Text>
       </View>
 
-      <View style={styles.cameraView}>
-        <Camera style={styles.camera} type={type} ref={setCamera}>
-          <TouchableHighlight
-            style={styles.cameraButton}
-            onPress={takePhoto}
-            activeOpacity={0.6}
-            underlayColor="#FFFFFF"
-            onLongPress={() => {
-              setType(
-                type === Camera.Constants.Type.back
-                  ? Camera.Constants.Type.front
-                  : Camera.Constants.Type.back
-              );
-            }}
-          >
-            {!isLoading ? (
+      <View style={styles.cameraContainer}>
+        <View style={styles.imagePreview}>
+          {photoURI ? (
+            <Image source={{ uri: photoURI }} style={styles.image} />
+          ) : (
+            <TouchableHighlight
+              style={styles.cameraButton}
+              onPress={takePhoto}
+              activeOpacity={0.6}
+              underlayColor="#FFFFFF"
+            >
               <AntDesign name="camera" size={24} color="white" />
-            ) : (
-              <ActivityIndicator size="large" color="#FFFFFF" />
-            )}
-          </TouchableHighlight>
-        </Camera>
-
-        <View>
-          <Image
-            style={styles.photo}
-            // source={{ uri: photo }}
-          />
+            </TouchableHighlight>
+          )}
         </View>
-        {/* {photo && ( */}
-        {/* <View>
-          <Image style={styles.photo} 
-          // source={{ uri: photo }} 
-          />
-        </View> */}
-        {/* )} */}
       </View>
 
       <View style={styles.buttonContainer}>
@@ -125,7 +110,7 @@ export default function CreateScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "blue",
+    paddingHorizontal: 10,
   },
   header: {
     height: 88,
@@ -140,30 +125,32 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     color: "#212121",
   },
-  cameraView: {
-    flexBasis: "40%",
-    backgroundColor: "yellow",
-
-    position: "relative",
-    marginBottom: 30,
-  },
-  camera: {
-    height: "100%",
-    marginHorizontal: 16,
-    borderRadius: 8,
-    borderEndWidth: 1,
-    borderColor: "#E8E8E8",
+  cameraContainer: {
+    width: "100%",
     justifyContent: "center",
+
     alignItems: "center",
   },
-  photo: {
-    position: "absolute",
-
+  cameraButton: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: "rgba(255, 255, 255, 0.3)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  imagePreview: {
+    width: "100%",
+    height: 400,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 10,
+    elevation: 5,
+    overflow: "hidden",
+  },
+  image: {
     width: "100%",
     height: "100%",
-
-    backgroundColor: "blue",
-    zIndex: 10,
   },
   cameraButton: {
     width: 60,

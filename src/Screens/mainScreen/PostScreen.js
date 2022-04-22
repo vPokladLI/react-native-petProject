@@ -18,7 +18,7 @@ export default function PostScreen({ route }) {
         renderItem={({ item }) => (
           <View style={{ marginBottom: 10 }}>
             <Image
-              source={{ uri: item.photo }}
+              source={{ uri: item.photoURI }}
               style={{ width: 350, height: 200 }}
             />
           </View>

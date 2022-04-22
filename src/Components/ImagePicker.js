@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   View,
   Text,
@@ -15,10 +15,10 @@ import {
 } from "expo-image-picker";
 
 const ImagePicker = () => {
-  const [photo, setPhoto] = useState(null);
   const [cameraPermissionInformation, requestPermition] =
     useCameraPermissions();
 
+  const [photoURI, setPhotoURI] = useState(null);
   const verifyPermission = async () => {
     if (cameraPermissionInformation.status === PermissionStatus.UNDETERMINED) {
       const permissionResponse = await requestPermition();
@@ -38,32 +38,35 @@ const ImagePicker = () => {
     const photo = await launchCameraAsync({
       allowsEditing: true,
       quality: 0.5,
-      aspect: [4, 3],
+      aspect: [16, 9],
     });
-    setPhoto(photo.uri);
-    console.log(photo.uri);
+    setPhotoURI(photo.uri);
+    // console.log(photoURI);
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.imagePreview}>
-        {photo ? <Image source={photo} /> : <Text>No image taken yet...</Text>}
+        {photoURI ? (
+          <Image source={{ uri: photoURI }} style={styles.image} />
+        ) : (
+          <TouchableHighlight
+            style={styles.cameraButton}
+            onPress={takePhoto}
+            activeOpacity={0.6}
+            underlayColor="#FFFFFF"
+          >
+            <AntDesign name="camera" size={24} color="white" />
+          </TouchableHighlight>
+        )}
       </View>
-
-      <TouchableHighlight
-        style={styles.cameraButton}
-        onPress={takePhoto}
-        activeOpacity={0.6}
-        underlayColor="#FFFFFF"
-      >
-        <AntDesign name="camera" size={24} color="white" />
-      </TouchableHighlight>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  cameraContainer: {
+    width: "100%",
     justifyContent: "center",
 
     alignItems: "center",
@@ -78,10 +81,12 @@ const styles = StyleSheet.create({
   },
   imagePreview: {
     width: "100%",
-    height: 200,
+    height: 400,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "green",
+    borderRadius: 10,
+    elevation: 5,
+    overflow: "hidden",
   },
   image: {
     width: "100%",
