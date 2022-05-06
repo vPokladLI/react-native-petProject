@@ -1,8 +1,10 @@
-import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import { useContext } from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { View, StyleSheet } from "react-native";
-const AuthStack = createStackNavigator();
+import { AuthContext } from "../store/authContex";
+
+const AuthStack = createNativeStackNavigator();
 const MainTab = createBottomTabNavigator();
 
 import { AntDesign, MaterialIcons, Ionicons } from "@expo/vector-icons";
@@ -14,8 +16,10 @@ import ProfileScreen from "../Screens/mainScreen/ProfileScreen";
 import RegistrationScreen from "../Screens/auth/RegistrationScreen";
 import LoginScreen from "../Screens/auth/LoginScreen";
 
-export default function useRoute(isAuth) {
-  if (!isAuth) {
+const Routes = () => {
+  const authCtx = useContext(AuthContext);
+
+  if (!authCtx.isLoggedIn) {
     return (
       <AuthStack.Navigator initialRouteName="Login">
         <AuthStack.Screen
@@ -69,7 +73,7 @@ export default function useRoute(isAuth) {
       />
     </MainTab.Navigator>
   );
-}
+};
 
 const styles = StyleSheet.create({
   iconCreate: {
@@ -82,4 +86,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
- 
+
+export default Routes;

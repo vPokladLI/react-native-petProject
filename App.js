@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 
 import { NavigationContainer } from "@react-navigation/native";
-import useRoute from "./src/route";
+import AuthContextProvider from "./src/store/authContex";
+
 import * as Font from "expo-font";
 import AppLoading from "expo-app-loading";
+import Routes from "./src/route/Routes";
 
 const loadApplication = async () => {
   await Font.loadAsync({
@@ -19,7 +21,6 @@ const loadApplication = async () => {
 
 const App = () => {
   const [isReady, setIsReady] = useState(false);
-  const routing = useRoute({});
 
   if (!isReady) {
     return (
@@ -33,7 +34,13 @@ const App = () => {
     );
   }
 
-  return <NavigationContainer>{routing}</NavigationContainer>;
+  return (
+    <NavigationContainer>
+      <AuthContextProvider>
+        <Routes />
+      </AuthContextProvider>
+    </NavigationContainer>
+  );
 };
 
 export default App;

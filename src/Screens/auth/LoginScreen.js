@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Text,
   StyleSheet,
@@ -11,8 +11,12 @@ import {
   TouchableWithoutFeedback,
   Dimensions,
   ImageBackground,
+  Alert,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+
+import { login } from "../../utils/auth";
+import { AuthContext } from "../../store/authContex";
+
 const image = require("../../../assets/images/background.jpg");
 const initialCredentials = { email: "", password: "", login: "" };
 
@@ -21,6 +25,8 @@ export default function LoginScreen({ navigation }) {
   const [isShowPass, setIsShowPass] = useState(true);
   const [credentials, setCredentials] = useState(initialCredentials);
   const [width, setWidth] = useState(Dimensions.get("window").width);
+
+  const authCtx = useContext(AuthContext);
 
   useEffect(() => {
     const onChange = () => {
@@ -34,8 +40,22 @@ export default function LoginScreen({ navigation }) {
   const keyboardHide = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
-    console.log(credentials);
-    setCredentials(initialCredentials);
+  };
+
+  const submitHandler = async () => {
+    console.log("submit");
+    if (credentials.password) {
+      console.log(credentials);
+      try {
+        const token = await login(credentials.email, credentials.password);
+        authCtx.authenticate(token);
+
+        keyboardHide();
+      } catch (error) {
+        Alert.alert("Ошибка авторизации");
+      }
+    }
+    keyboardHide();
   };
 
   const toggleShowPass = () => {
@@ -94,15 +114,15 @@ export default function LoginScreen({ navigation }) {
                 </TouchableOpacity>
               </View>
 
-              <TouchableOpacity style={styles.button} onPress={keyboardHide}>
+              <TouchableOpacity style={styles.button} onPress={submitHandler}>
                 <Text style={styles.buttonTitle}> Войти</Text>
               </TouchableOpacity>
             </View>
-            <View style={styles.avatar}>
+            {/* <View style={styles.avatar}>
               <TouchableOpacity style={styles.addAvatar}>
                 <Ionicons name="add-circle-outline" size={31} color="#FF6C00" />
               </TouchableOpacity>
-            </View>
+            </View> */}
 
             <Text
               onPress={() => navigation.navigate("Registration")}
