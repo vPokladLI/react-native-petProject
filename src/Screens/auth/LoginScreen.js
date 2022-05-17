@@ -70,7 +70,7 @@ export default function LoginScreen({ navigation }) {
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : null}>
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <View style={styles.form}>
-            <Text style={styles.formTitle}>Войти</Text>
+            <Text style={styles.formTitle}>Увійти</Text>
             <View
               style={{
                 ...styles.inputs,
@@ -87,7 +87,7 @@ export default function LoginScreen({ navigation }) {
                   onFocus={() => {
                     setIsShowKeyboard(true);
                   }}
-                  placeholder="Адрес электронной почты"
+                  placeholder="Адреса електроной пошти"
                   keyboardType="email-address"
                 />
               </View>
@@ -109,13 +109,13 @@ export default function LoginScreen({ navigation }) {
                   style={styles.hidePass}
                 >
                   <Text style={styles.hidePassText}>
-                    {isShowPass ? "Показать" : "Скрыть"}
+                    {isShowPass ? "Показати" : "Приховати"}
                   </Text>
                 </TouchableOpacity>
               </View>
 
               <TouchableOpacity style={styles.button} onPress={submitHandler}>
-                <Text style={styles.buttonTitle}> Войти</Text>
+                <Text style={styles.buttonTitle}> Увійти</Text>
               </TouchableOpacity>
             </View>
             {/* <View style={styles.avatar}>
@@ -128,7 +128,7 @@ export default function LoginScreen({ navigation }) {
               onPress={() => navigation.navigate("Registration")}
               style={styles.alterBtn}
             >
-              Нет аккаунта? Зарегистрироваться.
+              Нема акаунта? Реєстрація.
             </Text>
           </View>
         </TouchableWithoutFeedback>

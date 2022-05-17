@@ -6,7 +6,9 @@ export default function PostScreen({ route }) {
   useEffect(() => {
     if (route.params) {
       setPosts((prev) => [...prev, route.params]);
-      console.log(posts);
+      for (let post of posts) {
+        console.log(post.location?.coords);
+      }
     }
   }, [route.params]);
 
@@ -21,6 +23,8 @@ export default function PostScreen({ route }) {
               source={{ uri: item.photoURI }}
               style={{ width: 350, height: 200 }}
             />
+            <Text>{item.location?.coords?.latitude}</Text>
+            <Text>{item.location?.coords?.longitude}</Text>
           </View>
         )}
       />

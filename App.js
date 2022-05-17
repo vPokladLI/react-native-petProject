@@ -7,20 +7,20 @@ import * as Font from "expo-font";
 import AppLoading from "expo-app-loading";
 import Routes from "./src/route/Routes";
 
-const loadApplication = async () => {
-  await Font.loadAsync({
-    "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
-  });
-  await Font.loadAsync({
-    "Roboto-Medium": require("./assets/fonts/Roboto-Medium.ttf"),
-  });
-  await Font.loadAsync({
-    "Roboto-Bold": require("./assets/fonts/Roboto-Bold.ttf"),
-  });
-};
-
-const App = () => {
+const Root = () => {
   const [isReady, setIsReady] = useState(false);
+
+  const loadApplication = async () => {
+    await Font.loadAsync({
+      "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
+    });
+    await Font.loadAsync({
+      "Roboto-Medium": require("./assets/fonts/Roboto-Medium.ttf"),
+    });
+    await Font.loadAsync({
+      "Roboto-Bold": require("./assets/fonts/Roboto-Bold.ttf"),
+    });
+  };
 
   if (!isReady) {
     return (
@@ -33,11 +33,14 @@ const App = () => {
       />
     );
   }
+  return <Routes />;
+};
 
+const App = () => {
   return (
     <NavigationContainer>
       <AuthContextProvider>
-        <Routes />
+        <Root />
       </AuthContextProvider>
     </NavigationContainer>
   );

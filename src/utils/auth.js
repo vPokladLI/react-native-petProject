@@ -1,13 +1,9 @@
 import axios from "axios";
-const BASE_URL_LOGIN =
-  "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=";
-const BASE_URL_REGISTER =
-  "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=";
-const API_KEY = "AIzaSyAKpyiIeUXITdvknew7Gd5qPXoNuhohtnA";
+// import { FIREBASE_API_KEY } from "@env";
 
 export async function login(email, password) {
   const response = await axios.post(
-    "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAKpyiIeUXITdvknew7Gd5qPXoNuhohtnA",
+    `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.FIREBASE_API_KEY}`,
     {
       email: email,
       password: password,
@@ -20,7 +16,7 @@ export async function login(email, password) {
 
 export async function registration(email, password) {
   const response = await axios.post(
-    "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAKpyiIeUXITdvknew7Gd5qPXoNuhohtnA",
+    `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.FIREBASE_API_KEY}`,
     {
       email: email,
       password: password,

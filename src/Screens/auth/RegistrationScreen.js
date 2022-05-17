@@ -46,7 +46,6 @@ export default function LoginScreen({ navigation }) {
     setIsShowPass((prev) => !prev);
   };
   const onSubmit = async () => {
-    console.log("submit");
     if (credentials.password) {
       try {
         const token = await registration(
@@ -57,7 +56,7 @@ export default function LoginScreen({ navigation }) {
 
         keyboardHide();
       } catch (error) {
-        Alert.alert("Ошибка авторизации");
+        Alert.alert("Помилка авторизації");
       }
     }
   };
@@ -70,7 +69,7 @@ export default function LoginScreen({ navigation }) {
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : null}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.form}>
-            <Text style={styles.formTitle}>Регистрация</Text>
+            <Text style={styles.formTitle}>Реєстрація</Text>
             <View
               style={{
                 ...styles.inputs,
@@ -87,7 +86,7 @@ export default function LoginScreen({ navigation }) {
                   onFocus={() => {
                     setIsShowKeyboard(true);
                   }}
-                  placeholder="Логин"
+                  placeholder="Логін"
                 />
               </View>
               <View style={styles.formField}>
@@ -100,7 +99,7 @@ export default function LoginScreen({ navigation }) {
                   onFocus={() => {
                     setIsShowKeyboard(true);
                   }}
-                  placeholder="Адрес электронной почты"
+                  placeholder="Алреса електроної пошти"
                   keyboardType="email-address"
                 />
               </View>
@@ -122,26 +121,21 @@ export default function LoginScreen({ navigation }) {
                   style={styles.hidePass}
                 >
                   <Text style={styles.hidePassText}>
-                    {isShowPass ? "Показать" : "Скрыть"}
+                    {isShowPass ? "Показати" : "Приховати"}
                   </Text>
                 </TouchableOpacity>
               </View>
 
               <TouchableOpacity style={styles.button} onPress={onSubmit}>
-                <Text style={styles.buttonTitle}>Зарегестрироваться</Text>
+                <Text style={styles.buttonTitle}>Зареєструватися</Text>
               </TouchableOpacity>
             </View>
-            {/* <View style={styles.avatar}>
-              <TouchableOpacity style={styles.addAvatar}>
-                <Ionicons name="add-circle-outline" size={31} color="#FF6C00" />
-              </TouchableOpacity>
-            </View> */}
 
             <Text
               onPress={() => navigation.navigate("Login")}
               style={styles.alterBtn}
             >
-              Уже есть аккаунт? Войти.
+              Вже є аккаунт? Увійти.
             </Text>
           </View>
         </TouchableWithoutFeedback>
