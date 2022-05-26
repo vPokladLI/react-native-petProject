@@ -31,7 +31,7 @@ export default function CreateScreen({ navigation }) {
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
-      // console.log("location permission", status);
+
       if (status !== "granted") {
         Alert.alert(
           "Для работы приложения необходимо разрешение на опредоиление вашего местоположения"
@@ -70,13 +70,13 @@ export default function CreateScreen({ navigation }) {
   };
 
   const sendPhoto = () => {
-    navigation.navigate("Posts", { photoURI, location });
+    navigation.navigate("Posts", { photoURI, location, description });
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Создать публикацию</Text>
+        <Text style={styles.headerTitle}>Створити публікацію</Text>
       </View>
 
       <View style={styles.cameraContainer}>
@@ -103,14 +103,14 @@ export default function CreateScreen({ navigation }) {
                 style={styles.input}
                 value={description}
                 onChangeText={setDescription}
-                placeholder="Название..."
+                placeholder="Опис..."
               />
             </View>
             <View style={styles.formField}>
               <TextInput
                 style={styles.input}
                 onChangeText={setLocation}
-                placeholder="Местность"
+                placeholder="Локація..."
               />
             </View>
           </View>
@@ -123,7 +123,7 @@ export default function CreateScreen({ navigation }) {
           onPress={sendPhoto}
           disabled={!photoURI}
         >
-          <Text style={styles.buttonText}>Опубликовать</Text>
+          <Text style={styles.buttonText}>Створити публікацію</Text>
         </Pressable>
 
         <Pressable
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   headerTitle: {
-    fontFamily: "Roboto-Regular",
+    fontFamily: "Roboto-Medium",
     fontSize: 17,
     fontWeight: "500",
     color: "#212121",

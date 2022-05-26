@@ -1,13 +1,18 @@
-import { StyleSheet, Text, View, SafeAreaView, Image } from "react-native";
-import { useState } from "react";
-import ImagePicker from "../../Components/ImagePicker";
+import { StyleSheet, Text, View, Button, Image } from "react-native";
+import { useState, useContext } from "react";
+import { logOut } from "../../utils/auth";
+import { AuthContext } from "../../store/authContex";
+
 export default function ProfileScreen() {
-  console.log(process.env.REACT_APP_FIREBASE_KEY);
+  const authCtx = useContext(AuthContext);
+  const logOutHandler = () => {
+    authCtx.logOut();
+  };
+
   return (
     <View style={styles.container}>
       <Text>ProfileScreen</Text>
-
-      <ImagePicker />
+      <Button title="Вийти" onPress={logOutHandler}></Button>
     </View>
   );
 }
