@@ -71,6 +71,7 @@ export default function CreateScreen({ navigation }) {
 
   const sendPhoto = () => {
     navigation.navigate("Posts", { photoURI, location, description });
+    console.log(location);
   };
 
   return (

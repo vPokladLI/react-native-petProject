@@ -1,5 +1,4 @@
 import axios from "axios";
-// import { FIREBASE_API_KEY } from "@env";
 
 export async function login(email, password) {
   const response = await axios.post(

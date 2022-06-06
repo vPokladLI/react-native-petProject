@@ -1,8 +1,27 @@
-import { StyleSheet, Text, View, Image, FlatList } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  FlatList,
+  ViewStyle,
+  TextStyle,
+  ImageStyle,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 
-export default function PostScreen({ route }) {
-  const [posts, setPosts] = useState([]);
+interface Props {
+  route: { params: post };
+}
+
+interface post {
+  photoURI: string;
+  description: string;
+  location: { coords: { latitude: string; longitude: string } };
+}
+
+export default function PostScreen({ route }: Props) {
+  const [posts, setPosts] = useState<post[]>([]);
   useEffect(() => {
     if (route.params) {
       setPosts((prev) => [...prev, route.params]);
@@ -29,8 +48,8 @@ export default function PostScreen({ route }) {
             {item.description && (
               <Text style={styles.description}>{item?.description}</Text>
             )}
-
             <Text>{item.location?.coords?.longitude}</Text>
+            <Text>{item.location?.coords?.latitude}</Text>
           </View>
         )}
       />
@@ -38,7 +57,17 @@ export default function PostScreen({ route }) {
   );
 }
 
-const styles = StyleSheet.create({
+interface IStyle {
+  container: ViewStyle;
+  header: ViewStyle;
+  headerTitle: TextStyle;
+  post: ViewStyle;
+  imageContainer: ViewStyle;
+  image: ImageStyle;
+  description: TextStyle;
+}
+
+const styles = StyleSheet.create<IStyle>({
   container: {
     width: "100%",
     flex: 1,
