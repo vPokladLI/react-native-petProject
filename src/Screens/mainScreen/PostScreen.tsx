@@ -16,7 +16,7 @@ interface Props {
 
 interface post {
   photoURI: string;
-  description: string;
+  description?: string;
   location: { coords: { latitude: string; longitude: string } };
 }
 
@@ -39,14 +39,14 @@ export default function PostScreen({ route }: Props) {
       <FlatList
         style={{ width: "100%" }}
         data={posts}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(_, index) => index.toString()}
         renderItem={({ item }) => (
           <View style={styles.post}>
             <View style={styles.imageContainer}>
               <Image source={{ uri: item.photoURI }} style={styles.image} />
             </View>
             {item.description && (
-              <Text style={styles.description}>{item?.description}</Text>
+              <Text style={styles.description}>{item.description}</Text>
             )}
             <Text>{item.location?.coords?.longitude}</Text>
             <Text>{item.location?.coords?.latitude}</Text>

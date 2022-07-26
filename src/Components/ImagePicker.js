@@ -68,7 +68,6 @@ const styles = StyleSheet.create({
   cameraContainer: {
     width: "100%",
     justifyContent: "center",
-
     alignItems: "center",
   },
   cameraButton: {

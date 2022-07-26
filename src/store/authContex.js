@@ -1,5 +1,10 @@
 import { createContext, useState } from "react";
-
+// type token = string | null;
+const token = "asdasdasdsadasd";
+// interface IProps {
+//   children: React.ReactNode;
+// }
+zzz
 export const AuthContext = createContext({
   authToken: "",
   isLoggedIn: false,
@@ -8,21 +13,23 @@ export const AuthContext = createContext({
 });
 
 function AuthContextProvider({ children }) {
-  const [authToken, setAuthToken] = useState(null);
+  const [authToken, setAuthToken] = useState(token);
   function authenticate(token) {
     setAuthToken(token);
   }
   function logOut() {
     setAuthToken(null);
   }
-  const value = {
+  const values = {
     token: authToken,
     isLoggedIn: !!authToken,
     authenticate,
     logOut,
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider values={values}> {children} </AuthContext.Provider>
+  );
 }
 
 export default AuthContextProvider;
